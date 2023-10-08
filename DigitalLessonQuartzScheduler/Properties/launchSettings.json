@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "DigitalLessonQuartzScheduler": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5206;https://localhost:7291",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

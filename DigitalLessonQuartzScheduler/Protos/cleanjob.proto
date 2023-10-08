@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "ApiDigitalLesson.gRPC";
+
+package cleanjob;
+
+service CleanJob {
+    rpc CleanJobAsync (CleanupRequest) returns (google.protobuf.Empty);
+}
+
+message CleanupRequest{
+    int32 mount = 1;
+}

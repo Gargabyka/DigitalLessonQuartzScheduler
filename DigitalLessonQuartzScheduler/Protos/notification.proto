@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "DigitalLessonQuartzScheduler";
+
+package notification;
+
+service NotificationJob {
+    rpc SendNotification (google.protobuf.Empty) returns (NotificationResponse);
+}
+
+message NotificationResponse{
+    string name = 1;
+}
