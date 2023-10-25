@@ -5,8 +5,23 @@ namespace DigitalLessonQuartzScheduler
 {
     public static class GrpcRegistration
     {
+        private static Uri Address { get; set; } = null!;
+        private static IServiceCollection ServiceCollection { get; set; } = null!;
+
         public static void AddGrpcClients(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
+            Configuration(serviceCollection, configuration);
+            
+            RegisterGrpc<Health.HealthClient>();
+            
+            RegisterGrpc<CleanJob.CleanJobClient>();
+            RegisterGrpc<NotificationJob.NotificationJobClient>();
+        }
+
+        private static void Configuration(IServiceCollection serviceCollection, IConfiguration configuration)
+        {
+            ServiceCollection = serviceCollection;
+            
             var connection = configuration["GrpcServer:Connection"];
 
             if (string.IsNullOrEmpty(connection))
@@ -14,13 +29,12 @@ namespace DigitalLessonQuartzScheduler
                 throw new Exception("Не передан url до gRPC");
             }
             
-            var address = new Uri(connection);
-            
+            Address = new Uri(connection);
+        }
 
-            serviceCollection.AddGrpcClient<Health.HealthClient>(o => o.Address = address);
-            
-            serviceCollection.AddGrpcClient<CleanJob.CleanJobClient>(o => o.Address = address);
-            serviceCollection.AddGrpcClient<NotificationJob.NotificationJobClient>(o => o.Address = address);
+        private static void RegisterGrpc<TClient>() where TClient : class
+        {
+            ServiceCollection.AddGrpcClient<TClient>(o => o.Address = Address);
         }
     }
 }
